@@ -20,7 +20,6 @@ namespace CapaDatos
 
     public class prestamos
     {
-        #region Propiedades privadas
         private int dIdPrestamo;
         private string dNumeroPrestamo;
         private int dIdCliente;
@@ -38,10 +37,18 @@ namespace CapaDatos
         {
         }
 
-        public prestamos(int pIdPrestamo, string pNumeroPrestamo, int pIdCliente,
-                              decimal pMontoPrestamo, decimal pTasaInteres, int pPlazoMeses,
-                              DateTime pFechaPrestamo, DateTime pFechaVencimiento, string pEstado,
-                              decimal pSaldoPendiente, bool pActivo, DateTime pFechaActualizacion)
+        public prestamos(int pIdPrestamo,
+                         string pNumeroPrestamo,
+                         int pIdCliente,
+                         decimal pMontoPrestamo,
+                         decimal pTasaInteres,
+                         int pPlazoMeses,
+                         DateTime pFechaPrestamo,
+                         DateTime pFechaVencimiento,
+                         string pEstado,     
+                         decimal pSaldoPendiente,
+                         bool pActivo,
+                         DateTime pFechaActualizacion)
         {
             dIdPrestamo = pIdPrestamo;
             dNumeroPrestamo = pNumeroPrestamo;
@@ -236,7 +243,6 @@ namespace CapaDatos
 
             return dt;
         }
-        #endregion
 
-    } 
+    }
 }
