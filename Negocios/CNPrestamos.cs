@@ -13,7 +13,7 @@ namespace Negocios
     public class CNPrestamos
     {
         public static string Insertar(
-            string pNumeroPrestamo,
+            string pNumero_Prestamo,
             int pIdCliente,
             decimal pMontoPrestamo,
             decimal pTasaInteres,
@@ -25,8 +25,7 @@ namespace Negocios
             bool pActivo)
         {
             prestamos objPrestamo = new prestamos();
-
-            objPrestamo.NumeroPrestamo = pNumeroPrestamo;
+            objPrestamo.Numero_Prestamo = pNumero_Prestamo;
             objPrestamo.IdCliente = pIdCliente;
             objPrestamo.MontoPrestamo = pMontoPrestamo;
             objPrestamo.TasaInteres = pTasaInteres;
@@ -36,12 +35,11 @@ namespace Negocios
             objPrestamo.Estado = pEstado;
             objPrestamo.SaldoPendiente = pSaldoPendiente;
             objPrestamo.Activo = pActivo;
-
-
             return objPrestamo.Insertar(objPrestamo);
         }
-        public static string Actualaizar(
-            int pIdPrestamo,    
+
+        public static string Actualizar(
+            int pId_Prestamo,
             string pNumeroPrestamo,
             int pIdCliente,
             decimal pMontoPrestamo,
@@ -54,9 +52,8 @@ namespace Negocios
             bool pActivo)
         {
             prestamos objPrestamo = new prestamos();
-
-            objPrestamo.IdPrestamo = pIdPrestamo; 
-            objPrestamo.NumeroPrestamo = pNumeroPrestamo;
+            objPrestamo.Id_Prestamo = pId_Prestamo;
+            objPrestamo.Numero_Prestamo = pNumeroPrestamo;
             objPrestamo.IdCliente = pIdCliente;
             objPrestamo.MontoPrestamo = pMontoPrestamo;
             objPrestamo.TasaInteres = pTasaInteres;
@@ -66,37 +63,45 @@ namespace Negocios
             objPrestamo.Estado = pEstado;
             objPrestamo.SaldoPendiente = pSaldoPendiente;
             objPrestamo.Activo = pActivo;
-
             return objPrestamo.Actualizar(objPrestamo);
-
-
         }
 
-        public DataTable ObtenerPrestamo(string miparametro)
+        public static string Eliminar(int pIdPrestamo)
+        {
+            prestamos objPrestamo = new prestamos();
+            return objPrestamo.Eliminar(pIdPrestamo);
+        }
+
+        public static DataTable ObtenerPrestamo(string miparametro)
         {
             prestamos objPrestamo = new prestamos();
             DataTable dt = new DataTable();
             dt = objPrestamo.PrestamoConsultar(miparametro);
-
             return dt;
         }
-        public DataTable ObtenerTodosPrestamos()
+
+        public static DataTable ObtenerTodosPrestamos()
         {
             prestamos objPrestamo = new prestamos();
             DataTable dt = new DataTable();
             dt = objPrestamo.PrestamoConsultar("");
             return dt;
         }
-        public DataTable ObtenerPrestamosPorCliente(int idCliente)
+
+        public static DataTable ObtenerPrestamosPorCliente(int idCliente)
         {
             prestamos objPrestamo = new prestamos();
             DataTable dt = new DataTable();
+            dt = objPrestamo.ObtenerPorCliente(idCliente);
+            return dt;
+        }
 
-            dt = objPrestamo.PrestamoConsultar(idCliente.ToString());
-
+        public static DataTable ObtenerPrestamosPorID(int idPrestamo)
+        {
+            prestamos objPrestamo = new prestamos();
+            DataTable dt = new DataTable();
+            dt = objPrestamo.ObtenerPorId(idPrestamo);
             return dt;
         }
     }
 }
-
-

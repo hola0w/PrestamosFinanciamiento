@@ -20,8 +20,8 @@ namespace CapaDatos
 
     public class prestamos
     {
-        private int dIdPrestamo;
-        private string dNumeroPrestamo;
+        private int dId_Prestamo;
+        private string dNumero_Prestamo;
         private int dIdCliente;
         private decimal dMontoPrestamo;
         private decimal dTasaInteres;
@@ -37,8 +37,8 @@ namespace CapaDatos
         {
         }
 
-        public prestamos(int pIdPrestamo,
-                         string pNumeroPrestamo,
+        public prestamos(int pId_Prestamo,
+                         string pNumero_Prestamo,
                          int pIdCliente,
                          decimal pMontoPrestamo,
                          decimal pTasaInteres,
@@ -50,8 +50,8 @@ namespace CapaDatos
                          bool pActivo,
                          DateTime pFechaActualizacion)
         {
-            dIdPrestamo = pIdPrestamo;
-            dNumeroPrestamo = pNumeroPrestamo;
+            dId_Prestamo = pId_Prestamo;
+            dNumero_Prestamo = pNumero_Prestamo;
             dIdCliente = pIdCliente;
             dMontoPrestamo = pMontoPrestamo;
             dTasaInteres = pTasaInteres;
@@ -64,16 +64,16 @@ namespace CapaDatos
             dFechaActualizacion = pFechaActualizacion;
         }
 
-        public int IdPrestamo
+        public int Id_Prestamo
         {
-            get { return dIdPrestamo; }
-            set { dIdPrestamo = value; }
+            get { return dId_Prestamo; }
+            set { dId_Prestamo = value; }
         }
 
-        public string NumeroPrestamo
+        public string Numero_Prestamo
         {
-            get { return dNumeroPrestamo; }
-            set { dNumeroPrestamo = value; }
+            get { return dNumero_Prestamo; }
+            set { dNumero_Prestamo = value; }
         }
 
         public int IdCliente
@@ -145,11 +145,11 @@ namespace CapaDatos
             {
                 sqlCon.ConnectionString = ConexionDB.ConexionMY;
 
-                SqlCommand micomando = new SqlCommand("InstPrestamo", sqlCon);
+                SqlCommand micomando = new SqlCommand("Prestamo-Insertar", sqlCon);
                 sqlCon.Open();
                 micomando.CommandType = CommandType.StoredProcedure;
 
-                micomando.Parameters.AddWithValue("@pNumeroPrestamo", objPrestamo.NumeroPrestamo);
+                micomando.Parameters.AddWithValue("@pNumeroPrestamo", objPrestamo.Numero_Prestamo);
                 micomando.Parameters.AddWithValue("@pIdCliente", objPrestamo.IdCliente);
                 micomando.Parameters.AddWithValue("@pMontoPrestamo", objPrestamo.MontoPrestamo);
                 micomando.Parameters.AddWithValue("@pTasaInteres", objPrestamo.TasaInteres);
@@ -185,12 +185,12 @@ namespace CapaDatos
             try
             {
                 sqlCon.ConnectionString = ConexionDB.ConexionMY;
-                SqlCommand micomando = new SqlCommand("ActPrestamo", sqlCon);
+                SqlCommand micomando = new SqlCommand("Prestamo-Actualizar", sqlCon);
                 sqlCon.Open();
                 micomando.CommandType = CommandType.StoredProcedure;
 
-                micomando.Parameters.AddWithValue("@pIdPrestamo", objPrestamo.IdPrestamo);
-                micomando.Parameters.AddWithValue("@pNumeroPrestamo", objPrestamo.NumeroPrestamo);
+                micomando.Parameters.AddWithValue("@pIdPrestamo", objPrestamo.Id_Prestamo);
+                micomando.Parameters.AddWithValue("@pNumeroPrestamo", objPrestamo.Numero_Prestamo);
                 micomando.Parameters.AddWithValue("@pIdCliente", objPrestamo.IdCliente);
                 micomando.Parameters.AddWithValue("@pMontoPrestamo", objPrestamo.MontoPrestamo);
                 micomando.Parameters.AddWithValue("@pTasaInteres", objPrestamo.TasaInteres);
@@ -228,7 +228,7 @@ namespace CapaDatos
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
                 sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "SelectPrestamos";
+                sqlCmd.CommandText = "Prestamo-Seleccionar";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.Parameters.AddWithValue("@pvalor", miparametro);
 
@@ -243,29 +243,62 @@ namespace CapaDatos
 
             return dt;
         }
+        public string Eliminar(int idPrestamo)
+        {
+            string mensaje = "";
+            SqlConnection sqlCon = new SqlConnection();
 
-        //public DataTable ObtenerTodos()
-        //{
-        //    DataTable dt = new DataTable();
-        //    SqlDataReader leerDatos;
-        //    try
-        //    {
-        //        SqlCommand sqlCmd = new SqlCommand();
-        //        sqlCmd.Connection = new ConexionDB().dbConexion;
-        //        sqlCmd.Connection.Open();
-        //        sqlCmd.CommandText = "SelectPrestamos";
-        //        sqlCmd.CommandType = CommandType.StoredProcedure;
-        //        leerDatos = sqlCmd.ExecuteReader();
-        //        dt.Load(leerDatos);
-        //        sqlCmd.Connection.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        dt = null;
-        //    }
+            try
+            {
+                sqlCon.ConnectionString = ConexionDB.ConexionMY;
+                SqlCommand micomando = new SqlCommand("Prestamo-Eliminar", sqlCon);
+                sqlCon.Open();
+                micomando.CommandType = CommandType.StoredProcedure;
 
-        //    return dt;
-        //}
+                micomando.Parameters.AddWithValue("@pIdPrestamo", idPrestamo);
+
+                mensaje = micomando.ExecuteNonQuery() == 1
+                    ? "Préstamo eliminado correctamente!"
+                    : "No se pudo eliminar el préstamo!";
+            }
+            catch (Exception ex)
+            {
+                mensaje = ex.Message;
+            }
+            finally
+            {
+                if (sqlCon.State == ConnectionState.Open)
+                    sqlCon.Close();
+            }
+
+            return mensaje;
+        }
+
+        public DataTable ObtenerPorCliente(int idCliente)
+        {
+            DataTable dt = new DataTable();
+            SqlDataReader leerDatos;
+
+            try
+            {
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = new ConexionDB().dbConexion;
+                sqlCmd.Connection.Open();
+                sqlCmd.CommandText = "Prestamo-SeleccionarPorCliente";
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+                sqlCmd.Parameters.AddWithValue("@pIdCliente", idCliente);
+
+                leerDatos = sqlCmd.ExecuteReader();
+                dt.Load(leerDatos);
+                sqlCmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
 
         public DataTable ObtenerPorId(int idPrestamo)
         {
@@ -277,7 +310,7 @@ namespace CapaDatos
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
                 sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "SelecPrestamoPorID";
+                sqlCmd.CommandText = "Prestamo-SeleccionarPorID";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.Parameters.AddWithValue("@pIdPrestamo", idPrestamo);
 
