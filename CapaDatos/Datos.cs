@@ -145,7 +145,7 @@ namespace CapaDatos
             {
                 sqlCon.ConnectionString = ConexionDB.ConexionMY;
 
-                SqlCommand micomando = new SqlCommand("PrestamoInsertar", sqlCon);
+                SqlCommand micomando = new SqlCommand("InstPrestamo", sqlCon);
                 sqlCon.Open();
                 micomando.CommandType = CommandType.StoredProcedure;
 
@@ -185,7 +185,7 @@ namespace CapaDatos
             try
             {
                 sqlCon.ConnectionString = ConexionDB.ConexionMY;
-                SqlCommand micomando = new SqlCommand("PrestamoActualizar", sqlCon);
+                SqlCommand micomando = new SqlCommand("ActPrestamo", sqlCon);
                 sqlCon.Open();
                 micomando.CommandType = CommandType.StoredProcedure;
 
@@ -228,9 +228,58 @@ namespace CapaDatos
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
                 sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "PrestamoConsultar";
+                sqlCmd.CommandText = "SelectPrestamos";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.Parameters.AddWithValue("@pvalor", miparametro);
+
+                leerDatos = sqlCmd.ExecuteReader();
+                dt.Load(leerDatos);
+                sqlCmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        //public DataTable ObtenerTodos()
+        //{
+        //    DataTable dt = new DataTable();
+        //    SqlDataReader leerDatos;
+        //    try
+        //    {
+        //        SqlCommand sqlCmd = new SqlCommand();
+        //        sqlCmd.Connection = new ConexionDB().dbConexion;
+        //        sqlCmd.Connection.Open();
+        //        sqlCmd.CommandText = "SelectPrestamos";
+        //        sqlCmd.CommandType = CommandType.StoredProcedure;
+        //        leerDatos = sqlCmd.ExecuteReader();
+        //        dt.Load(leerDatos);
+        //        sqlCmd.Connection.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        dt = null;
+        //    }
+
+        //    return dt;
+        //}
+
+        public DataTable ObtenerPorId(int idPrestamo)
+        {
+            DataTable dt = new DataTable();
+            SqlDataReader leerDatos;
+
+            try
+            {
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = new ConexionDB().dbConexion;
+                sqlCmd.Connection.Open();
+                sqlCmd.CommandText = "SelecPrestamoPorID";
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+                sqlCmd.Parameters.AddWithValue("@pIdPrestamo", idPrestamo);
 
                 leerDatos = sqlCmd.ExecuteReader();
                 dt.Load(leerDatos);
