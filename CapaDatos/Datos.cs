@@ -9,14 +9,6 @@ using System.Data.Sql;
 
 namespace CapaDatos
 {
-    public class ConexionDB
-    {
-        public static String ConexionMY = @"Data Source = (LocalDB)\MSSQLLocalDB;
-             AttachDbFilename=C:\PrestamosFinanciamiento\PrestamosFinanciamiento\DBPrestamos.mdf;
-                Integrated Security = True";
-
-        public SqlConnection dbConexion = new SqlConnection(ConexionMY);
-    }
 
     public class prestamos
     {
