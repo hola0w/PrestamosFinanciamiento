@@ -61,14 +61,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBPrestamosDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBPrestamosDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FPRESTAMO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FPRESTAMO.Designer.cs">
+      <DependentUpon>FPRESTAMO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FREGCLIENTE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FREGCLIENTE.Designer.cs">
+      <DependentUpon>FREGCLIENTE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCLIENTEVIEW.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCLIENTEVIEW.Designer.cs">
+      <DependentUpon>MCLIENTEVIEW.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MGestionPrestamo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MGestionPrestamo.Designer.cs">
+      <DependentUpon>MGestionPrestamo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FPRESTAMO.resx">
+      <DependentUpon>FPRESTAMO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FREGCLIENTE.resx">
+      <DependentUpon>FREGCLIENTE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCLIENTEVIEW.resx">
+      <DependentUpon>MCLIENTEVIEW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MGestionPrestamo.resx">
+      <DependentUpon>MGestionPrestamo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -78,6 +122,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="DBPrestamosDataSet.xsc">
+      <DependentUpon>DBPrestamosDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DBPrestamosDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DBPrestamosDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DBPrestamosDataSet.xss">
+      <DependentUpon>DBPrestamosDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -102,6 +157,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
+      <Project>{2547c2b6-abc6-4bf3-bab4-1cf654eb5b9e}</Project>
+      <Name>CapaDatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Negocios\Negocios.csproj">
+      <Project>{ca7ecc3f-6eef-49b4-a323-98ac236cce30}</Project>
+      <Name>Negocios</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

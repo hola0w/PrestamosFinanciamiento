@@ -16,5 +16,37 @@ namespace PrestamosFinanciamiento
         {
             InitializeComponent();
         }
+
+        private void BTGCliente_Click(object sender, EventArgs e)
+        {
+            FREGCLIENTE miFREGCLIENTE = new FREGCLIENTE();
+            miFREGCLIENTE.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FPRESTAMO miFPRESTAMO = new FPRESTAMO();
+            miFPRESTAMO.ShowDialog();
+        }
+
+        private void BSalir_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show(
+               "¿Está seguro de que desea salir?",
+               "Confirmar Salida",
+               MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question);
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+        private void BTPrestamo_Click(object sender, EventArgs e)
+        {
+            FPRESTAMO miFPRESTAMO = new FPRESTAMO();
+            miFPRESTAMO.ShowDialog();
+        }
     }
 }

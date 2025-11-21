@@ -118,6 +118,9 @@ namespace Negocios
             set { nValor = value; }
         }
 
+        /// <summary>
+        /// Inserta un nuevo cliente y retorna mensaje de éxito o error
+        /// </summary>
         public string InsertarCliente(CNCliente objCliente)
         {
             CDCliente miCliente = new CDCliente();
@@ -130,10 +133,31 @@ namespace Negocios
             miCliente.Email = objCliente.Email;
             miCliente.Activo = objCliente.Activo;
 
-            nMensajeError = miCliente.Insertar(miCliente);
-            return nMensajeError;
+            bool resultado = miCliente.Insertar(miCliente);
+
+            if (resultado)
+            {
+                nMensajeError = string.Empty; // Operación exitosa
+                return string.Empty;
+            }
+            else
+            {
+                // Si hay error en la capa de datos, lo capturamos
+                if (!string.IsNullOrEmpty(miCliente.ErrorDetalle))
+                {
+                    nMensajeError = "Error al insertar cliente: " + miCliente.ErrorDetalle;
+                }
+                else
+                {
+                    nMensajeError = "No se pudo insertar el cliente. No se afectaron registros.";
+                }
+                return nMensajeError;
+            }
         }
 
+        /// <summary>
+        /// Actualiza un cliente existente y retorna mensaje de éxito o error
+        /// </summary>
         public string ActualizarCliente(CNCliente objCliente)
         {
             CDCliente miCliente = new CDCliente();
@@ -147,8 +171,51 @@ namespace Negocios
             miCliente.Email = objCliente.Email;
             miCliente.Activo = objCliente.Activo;
 
-            nMensajeError = miCliente.Actualizar(miCliente);
-            return nMensajeError;
+            bool resultado = miCliente.Actualizar(miCliente);
+
+            if (resultado)
+            {
+                nMensajeError = string.Empty; // Operación exitosa
+                return string.Empty;
+            }
+            else
+            {
+                // Si hay error en la capa de datos, lo capturamos
+                if (!string.IsNullOrEmpty(miCliente.ErrorDetalle))
+                {
+                    nMensajeError = "Error al actualizar cliente: " + miCliente.ErrorDetalle;
+                }
+                else
+                {
+                    nMensajeError = "No se pudo actualizar el cliente. Verifique que el registro exista.";
+                }
+                return nMensajeError;
+            }
+        }
+
+        public string EliminarCliente(int idCliente)
+        {
+            CDCliente miCliente = new CDCliente();
+            bool resultado = miCliente.Eliminar(idCliente);
+
+            if (resultado)
+            {
+                nMensajeError = string.Empty; 
+                return string.Empty;
+            }
+            else
+            {
+               
+                if (!string.IsNullOrEmpty(miCliente.ErrorDetalle))
+                {
+                    nMensajeError = "Error al eliminar cliente: " + miCliente.ErrorDetalle;
+                }
+                else
+                {
+                    nMensajeError = "No se pudo eliminar el cliente. Verifique que el registro exista o que no tenga registros dependientes.";
+                }
+                return nMensajeError;
+            }
         }
 
         public DataTable ConsultarCliente(string parametro)
@@ -157,14 +224,13 @@ namespace Negocios
             CDCliente miCliente = new CDCliente();
 
             dt = miCliente.ClienteConsultar(parametro);
-            return dt;
-        }
 
-        public string EliminarCliente(int idCliente)
-        {
-            CDCliente miCliente = new CDCliente();
-            nMensajeError = miCliente.Eliminar(idCliente);
-            return nMensajeError;
+            if (dt == null && !string.IsNullOrEmpty(miCliente.ErrorDetalle))
+            {
+                nMensajeError = miCliente.ErrorDetalle;
+            }
+
+            return dt;
         }
 
         public DataTable ObtenerClientePorId(int idCliente)
@@ -173,6 +239,12 @@ namespace Negocios
             CDCliente miCliente = new CDCliente();
 
             dt = miCliente.ObtenerPorId(idCliente);
+
+            if (dt == null && !string.IsNullOrEmpty(miCliente.ErrorDetalle))
+            {
+                nMensajeError = miCliente.ErrorDetalle;
+            }
+
             return dt;
         }
 
@@ -182,6 +254,12 @@ namespace Negocios
             CDCliente miCliente = new CDCliente();
 
             dt = miCliente.BuscarPorCedula(cedula);
+
+            if (dt == null && !string.IsNullOrEmpty(miCliente.ErrorDetalle))
+            {
+                nMensajeError = miCliente.ErrorDetalle;
+            }
+
             return dt;
         }
 
@@ -193,15 +271,27 @@ namespace Negocios
                 return false;
             }
 
+            if (objCliente.Nombre.Length > 50)
+            {
+                nMensajeError = "El nombre no puede exceder 50 caracteres.";
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(objCliente.Apellido))
             {
                 nMensajeError = "El apellido es obligatorio.";
                 return false;
             }
 
+            if (objCliente.Apellido.Length > 50)
+            {
+                nMensajeError = "El apellido no puede exceder 50 caracteres.";
+                return false;
+            }
+
             if (objCliente.Cedula <= 0)
             {
-                nMensajeError = "La cédula es obligatoria.";
+                nMensajeError = "La cédula es obligatoria y debe ser mayor a cero.";
                 return false;
             }
 
@@ -211,14 +301,26 @@ namespace Negocios
                 return false;
             }
 
+            if (objCliente.Direccion.Length > 100)
+            {
+                nMensajeError = "La dirección no puede exceder 100 caracteres.";
+                return false;
+            }
+
             if (objCliente.Telefono <= 0)
             {
-                nMensajeError = "El teléfono es obligatorio.";
+                nMensajeError = "El teléfono es obligatorio y debe ser mayor a cero.";
                 return false;
             }
 
             if (!string.IsNullOrWhiteSpace(objCliente.Email))
             {
+                if (objCliente.Email.Length > 50)
+                {
+                    nMensajeError = "El email no puede exceder 50 caracteres.";
+                    return false;
+                }
+
                 if (!ValidarFormatoEmail(objCliente.Email))
                 {
                     nMensajeError = "El formato del email no es válido.";

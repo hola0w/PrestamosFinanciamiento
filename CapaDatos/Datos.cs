@@ -140,7 +140,6 @@ namespace CapaDatos
                 SqlCommand micomando = new SqlCommand("Prestamo-Insertar", sqlCon);
                 sqlCon.Open();
                 micomando.CommandType = CommandType.StoredProcedure;
-
                 micomando.Parameters.AddWithValue("@pNumeroPrestamo", objPrestamo.Numero_Prestamo);
                 micomando.Parameters.AddWithValue("@pIdCliente", objPrestamo.IdCliente);
                 micomando.Parameters.AddWithValue("@pMontoPrestamo", objPrestamo.MontoPrestamo);

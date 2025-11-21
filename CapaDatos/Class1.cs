@@ -12,7 +12,7 @@ namespace CapaDatos
     public class ConexionDB
     {
         public static String ConexionMY = @"Data Source = (LocalDB)\MSSQLLocalDB;
-             AttachDbFilename=C:\PrestamosFinanciamiento\PrestamosFinanciamiento\DBPrestamos.mdf;
+             AttachDbFilename=C:\PrestamosFinanciamiento\CapaDatos\DBPrestamos.mdf;
                 Integrated Security = True";
 
         public SqlConnection dbConexion = new SqlConnection(ConexionMY);
