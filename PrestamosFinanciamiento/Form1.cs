@@ -45,8 +45,15 @@ namespace PrestamosFinanciamiento
 
         private void BTPrestamo_Click(object sender, EventArgs e)
         {
-            FPRESTAMO miFPRESTAMO = new FPRESTAMO();
-            miFPRESTAMO.ShowDialog();
+            MenuPrestamo miMenuPrestamo = new MenuPrestamo();
+            miMenuPrestamo.ShowDialog();
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            RERyPprestamos miRERyPprestamos = new RERyPprestamos();
+            miRERyPprestamos.ShowDialog();
         }
     }
 }

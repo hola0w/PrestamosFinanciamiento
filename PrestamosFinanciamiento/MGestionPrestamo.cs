@@ -17,6 +17,7 @@ namespace PrestamosFinanciamiento
             InitializeComponent();
         }
 
+
         private void RBCodCliente_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -25,6 +26,25 @@ namespace PrestamosFinanciamiento
         private void CodCliente_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void BSeleccionar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BSalir_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show(
+               "¿Está seguro de que desea salir?",
+               "Confirmar Salida",
+               MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question);
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }

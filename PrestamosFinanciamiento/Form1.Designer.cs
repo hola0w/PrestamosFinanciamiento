@@ -33,11 +33,13 @@ namespace PrestamosFinanciamiento
             this.BTPrestamo = new System.Windows.Forms.Button();
             this.BSalir = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BTGCliente
             // 
+            this.BTGCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTGCliente.Location = new System.Drawing.Point(12, 153);
             this.BTGCliente.Name = "BTGCliente";
             this.BTGCliente.Size = new System.Drawing.Size(170, 46);
@@ -48,6 +50,7 @@ namespace PrestamosFinanciamiento
             // 
             // BTPrestamo
             // 
+            this.BTPrestamo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTPrestamo.Location = new System.Drawing.Point(12, 85);
             this.BTPrestamo.Name = "BTPrestamo";
             this.BTPrestamo.Size = new System.Drawing.Size(170, 46);
@@ -80,12 +83,23 @@ namespace PrestamosFinanciamiento
             this.panel1.Size = new System.Drawing.Size(998, 79);
             this.panel1.TabIndex = 23;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(591, 165);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(198, 42);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(998, 608);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.BTPrestamo);
             this.Controls.Add(this.BTGCliente);
@@ -103,6 +117,7 @@ namespace PrestamosFinanciamiento
         private System.Windows.Forms.Button BTPrestamo;
         private System.Windows.Forms.Button BSalir;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
