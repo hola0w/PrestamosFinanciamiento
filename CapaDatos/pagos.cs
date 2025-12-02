@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
-using System.Data.Sql;
 
 namespace CapaDatos
 {
-    public class CDPagos
+    public class Pagos
     {
         private int dIdPago;
         private string dNumeroRecibo;
@@ -22,13 +21,13 @@ namespace CapaDatos
         private bool dActivo;
         private DateTime dFechaActualizacion;
 
-        public CDPagos()
+        public Pagos()
         {
         }
 
-        public CDPagos(int pIdPago, string pNumeroRecibo, int pIdPrestamo, int pIdCliente,
-                       DateTime pFechaPago, decimal pMontoPago, string pMetodoPago,
-                       string pObservaciones, bool pActivo, DateTime pFechaActualizacion)
+        public Pagos(int pIdPago, string pNumeroRecibo, int pIdPrestamo, int pIdCliente,
+                     DateTime pFechaPago, decimal pMontoPago, string pMetodoPago,
+                     string pObservaciones, bool pActivo, DateTime pFechaActualizacion)
         {
             dIdPago = pIdPago;
             dNumeroRecibo = pNumeroRecibo;
@@ -102,7 +101,12 @@ namespace CapaDatos
             set { dFechaActualizacion = value; }
         }
 
-        public string Insertar(CDPagos objPago)
+        public string MontoPagoFormateado
+        {
+            get { return "$" + dMontoPago.ToString("N2"); }
+        }
+
+        public string Insertar(Pagos objPago)
         {
             string mensaje = "";
             SqlConnection sqlCon = new SqlConnection();
@@ -110,10 +114,8 @@ namespace CapaDatos
             try
             {
                 sqlCon.ConnectionString = ConexionDB.ConexionMY;
-
-                SqlCommand micomando = new SqlCommand("Pagos-Insertar", sqlCon);
+                SqlCommand micomando = new SqlCommand("PagosInsertar", sqlCon);
                 sqlCon.Open();
-
                 micomando.CommandType = CommandType.StoredProcedure;
 
                 micomando.Parameters.AddWithValue("@pnumero_recibo", objPago.NumeroRecibo);
@@ -122,16 +124,32 @@ namespace CapaDatos
                 micomando.Parameters.AddWithValue("@pfecha_pago", objPago.FechaPago);
                 micomando.Parameters.AddWithValue("@pmonto_pago", objPago.MontoPago);
                 micomando.Parameters.AddWithValue("@pmetodo_pago", objPago.MetodoPago);
-                micomando.Parameters.AddWithValue("@pobservaciones", objPago.Observaciones);
-                micomando.Parameters.AddWithValue("@pactivo", objPago.Activo);
+                micomando.Parameters.AddWithValue("@pobservaciones",
+                    string.IsNullOrEmpty(objPago.Observaciones) ? (object)DBNull.Value : objPago.Observaciones);
 
-                mensaje = micomando.ExecuteNonQuery() == 1
-                    ? "Pago registrado correctamente!"
-                    : "No se pudo registrar el pago!";
+                SqlParameter paramIdPago = new SqlParameter("@pid_pago", SqlDbType.Int);
+                paramIdPago.Direction = ParameterDirection.Output;
+                micomando.Parameters.Add(paramIdPago);
+
+                micomando.ExecuteNonQuery();
+
+                if (paramIdPago.Value != DBNull.Value)
+                {
+                    objPago.IdPago = Convert.ToInt32(paramIdPago.Value);
+                    mensaje = $"¡Pago registrado correctamente! ID: {objPago.IdPago} | Monto: ${objPago.MontoPago:N2}";
+                }
+                else
+                {
+                    mensaje = "No se pudo registrar el pago!";
+                }
+            }
+            catch (SqlException ex)
+            {
+                mensaje = $"Error SQL: {ex.Message}";
             }
             catch (Exception ex)
             {
-                mensaje = ex.Message;
+                mensaje = $"Error: {ex.Message}";
             }
             finally
             {
@@ -142,7 +160,7 @@ namespace CapaDatos
             return mensaje;
         }
 
-        public string Actualizar(CDPagos objPago)
+        public string Actualizar(Pagos objPago)
         {
             string mensaje = "";
             SqlConnection sqlCon = new SqlConnection();
@@ -150,7 +168,7 @@ namespace CapaDatos
             try
             {
                 sqlCon.ConnectionString = ConexionDB.ConexionMY;
-                SqlCommand micomando = new SqlCommand("Pagos-Actualizar", sqlCon);
+                SqlCommand micomando = new SqlCommand("Pagos_Actualizar", sqlCon);
                 sqlCon.Open();
                 micomando.CommandType = CommandType.StoredProcedure;
 
@@ -161,16 +179,21 @@ namespace CapaDatos
                 micomando.Parameters.AddWithValue("@pfecha_pago", objPago.FechaPago);
                 micomando.Parameters.AddWithValue("@pmonto_pago", objPago.MontoPago);
                 micomando.Parameters.AddWithValue("@pmetodo_pago", objPago.MetodoPago);
-                micomando.Parameters.AddWithValue("@pobservaciones", objPago.Observaciones);
+                micomando.Parameters.AddWithValue("@pobservaciones",
+                    string.IsNullOrEmpty(objPago.Observaciones) ? (object)DBNull.Value : objPago.Observaciones);
                 micomando.Parameters.AddWithValue("@pactivo", objPago.Activo);
 
                 mensaje = micomando.ExecuteNonQuery() == 1
-                    ? "Pago actualizado correctamente!"
+                    ? $"¡Pago actualizado correctamente! Monto: ${objPago.MontoPago:N2}"
                     : "No se pudo actualizar el pago!";
+            }
+            catch (SqlException ex)
+            {
+                mensaje = $"Error SQL: {ex.Message}";
             }
             catch (Exception ex)
             {
-                mensaje = ex.Message;
+                mensaje = $"Error: {ex.Message}";
             }
             finally
             {
@@ -185,23 +208,30 @@ namespace CapaDatos
         {
             DataTable dt = new DataTable();
             SqlDataReader leerDatos;
+            SqlConnection sqlCon = null;
 
             try
             {
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
-                sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "Pagos-Seleccionar";
+                sqlCon = sqlCmd.Connection;
+                sqlCon.Open();
+                sqlCmd.CommandText = "Pagos_Consultar";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.Parameters.AddWithValue("@pvalor", miparametro);
 
                 leerDatos = sqlCmd.ExecuteReader();
                 dt.Load(leerDatos);
-                sqlCmd.Connection.Close();
+                leerDatos.Close();
             }
             catch (Exception ex)
             {
                 dt = null;
+            }
+            finally
+            {
+                if (sqlCon != null && sqlCon.State == ConnectionState.Open)
+                    sqlCon.Close();
             }
 
             return dt;
@@ -215,19 +245,23 @@ namespace CapaDatos
             try
             {
                 sqlCon.ConnectionString = ConexionDB.ConexionMY;
-                SqlCommand micomando = new SqlCommand("Pagos-Eliminar", sqlCon);
+                SqlCommand micomando = new SqlCommand("Pagos_Eliminar", sqlCon);
                 sqlCon.Open();
                 micomando.CommandType = CommandType.StoredProcedure;
 
                 micomando.Parameters.AddWithValue("@pid_pago", idPago);
 
                 mensaje = micomando.ExecuteNonQuery() == 1
-                    ? "Pago eliminado correctamente!"
+                    ? $"¡Pago #{idPago} eliminado correctamente!"
                     : "No se pudo eliminar el pago!";
+            }
+            catch (SqlException ex)
+            {
+                mensaje = $"Error SQL: {ex.Message}";
             }
             catch (Exception ex)
             {
-                mensaje = ex.Message;
+                mensaje = $"Error: {ex.Message}";
             }
             finally
             {
@@ -242,49 +276,30 @@ namespace CapaDatos
         {
             DataTable dt = new DataTable();
             SqlDataReader leerDatos;
+            SqlConnection sqlCon = null;
 
             try
             {
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
-                sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "Pagos-SeleccionarPorID";
+                sqlCon = sqlCmd.Connection;
+                sqlCon.Open();
+                sqlCmd.CommandText = "Pagos_SeleccionarPorID";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.Parameters.AddWithValue("@pid_pago", idPago);
 
                 leerDatos = sqlCmd.ExecuteReader();
                 dt.Load(leerDatos);
-                sqlCmd.Connection.Close();
+                leerDatos.Close();
             }
             catch (Exception ex)
             {
                 dt = null;
             }
-
-            return dt;
-        }
-
-        public DataTable ObtenerPorPrestamo(int idPrestamo)
-        {
-            DataTable dt = new DataTable();
-            SqlDataReader leerDatos;
-
-            try
+            finally
             {
-                SqlCommand sqlCmd = new SqlCommand();
-                sqlCmd.Connection = new ConexionDB().dbConexion;
-                sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "Pagos-SeleccionarPorPrestamo";
-                sqlCmd.CommandType = CommandType.StoredProcedure;
-                sqlCmd.Parameters.AddWithValue("@pid_prestamo", idPrestamo);
-
-                leerDatos = sqlCmd.ExecuteReader();
-                dt.Load(leerDatos);
-                sqlCmd.Connection.Close();
-            }
-            catch (Exception ex)
-            {
-                dt = null;
+                if (sqlCon != null && sqlCon.State == ConnectionState.Open)
+                    sqlCon.Close();
             }
 
             return dt;
@@ -294,49 +309,63 @@ namespace CapaDatos
         {
             DataTable dt = new DataTable();
             SqlDataReader leerDatos;
+            SqlConnection sqlCon = null;
 
             try
             {
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
-                sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "Pagos-SeleccionarPorCliente";
+                sqlCon = sqlCmd.Connection;
+                sqlCon.Open();
+                sqlCmd.CommandText = "Pagos_PorCliente";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.Parameters.AddWithValue("@pidcliente", idCliente);
 
                 leerDatos = sqlCmd.ExecuteReader();
                 dt.Load(leerDatos);
-                sqlCmd.Connection.Close();
+                leerDatos.Close();
             }
             catch (Exception ex)
             {
                 dt = null;
+            }
+            finally
+            {
+                if (sqlCon != null && sqlCon.State == ConnectionState.Open)
+                    sqlCon.Close();
             }
 
             return dt;
         }
 
-        public DataTable ObtenerPorNumeroRecibo(string numeroRecibo)
+        public DataTable ObtenerPorPrestamo(int idPrestamo)
         {
             DataTable dt = new DataTable();
             SqlDataReader leerDatos;
+            SqlConnection sqlCon = null;
 
             try
             {
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
-                sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "Pagos-BuscarPorRecibo";
+                sqlCon = sqlCmd.Connection;
+                sqlCon.Open();
+                sqlCmd.CommandText = "Pagos_PorPrestamo";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
-                sqlCmd.Parameters.AddWithValue("@pnumero_recibo", numeroRecibo);
+                sqlCmd.Parameters.AddWithValue("@pid_prestamo", idPrestamo);
 
                 leerDatos = sqlCmd.ExecuteReader();
                 dt.Load(leerDatos);
-                sqlCmd.Connection.Close();
+                leerDatos.Close();
             }
             catch (Exception ex)
             {
                 dt = null;
+            }
+            finally
+            {
+                if (sqlCon != null && sqlCon.State == ConnectionState.Open)
+                    sqlCon.Close();
             }
 
             return dt;
@@ -346,53 +375,96 @@ namespace CapaDatos
         {
             DataTable dt = new DataTable();
             SqlDataReader leerDatos;
+            SqlConnection sqlCon = null;
 
             try
             {
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
-                sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "Pagos-SeleccionarPorFecha";
+                sqlCon = sqlCmd.Connection;
+                sqlCon.Open();
+                sqlCmd.CommandText = "Pagos_PorFecha";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.Parameters.AddWithValue("@pfecha_inicio", fechaInicio);
                 sqlCmd.Parameters.AddWithValue("@pfecha_fin", fechaFin);
 
                 leerDatos = sqlCmd.ExecuteReader();
                 dt.Load(leerDatos);
-                sqlCmd.Connection.Close();
+                leerDatos.Close();
             }
             catch (Exception ex)
             {
                 dt = null;
+            }
+            finally
+            {
+                if (sqlCon != null && sqlCon.State == ConnectionState.Open)
+                    sqlCon.Close();
             }
 
             return dt;
         }
 
-        public DataTable ObtenerPorMetodoPago(string metodoPago)
+        public DataTable ResumenGeneral()
         {
             DataTable dt = new DataTable();
             SqlDataReader leerDatos;
+            SqlConnection sqlCon = null;
 
             try
             {
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = new ConexionDB().dbConexion;
-                sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "Pagos-SeleccionarPorMetodo";
+                sqlCon = sqlCmd.Connection;
+                sqlCon.Open();
+                sqlCmd.CommandText = "Pagos_ResumenGeneral";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
-                sqlCmd.Parameters.AddWithValue("@pmetodo_pago", metodoPago);
 
                 leerDatos = sqlCmd.ExecuteReader();
                 dt.Load(leerDatos);
-                sqlCmd.Connection.Close();
+                leerDatos.Close();
             }
             catch (Exception ex)
             {
                 dt = null;
             }
+            finally
+            {
+                if (sqlCon != null && sqlCon.State == ConnectionState.Open)
+                    sqlCon.Close();
+            }
 
             return dt;
+        }
+
+        public string GenerarNumeroRecibo()
+        {
+            string prefijo = "REC";
+            string fecha = DateTime.Now.ToString("yyyyMMdd");
+            Random random = new Random();
+            string numeroAleatorio = random.Next(1000, 9999).ToString();
+
+            return $"{prefijo}-{fecha}-{numeroAleatorio}";
+        }
+
+        public static string FormatearMonto(decimal monto)
+        {
+            return "$" + monto.ToString("N2");
+        }
+
+        public static string CalcularTotalPagos(DataTable dt)
+        {
+            if (dt == null || dt.Rows.Count == 0)
+                return "$0.00";
+
+            decimal total = 0;
+            foreach (DataRow row in dt.Rows)
+            {
+                if (row["monto_pago"] != DBNull.Value)
+                    total += Convert.ToDecimal(row["monto_pago"]);
+            }
+
+            return FormatearMonto(total);
         }
     }
 }

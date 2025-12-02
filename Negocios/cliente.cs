@@ -118,9 +118,6 @@ namespace Negocios
             set { nValor = value; }
         }
 
-        /// <summary>
-        /// Inserta un nuevo cliente y retorna mensaje de éxito o error
-        /// </summary>
         public string InsertarCliente(CNCliente objCliente)
         {
             CDCliente miCliente = new CDCliente();
@@ -137,12 +134,11 @@ namespace Negocios
 
             if (resultado)
             {
-                nMensajeError = string.Empty; // Operación exitosa
+                nMensajeError = string.Empty; 
                 return string.Empty;
             }
             else
             {
-                // Si hay error en la capa de datos, lo capturamos
                 if (!string.IsNullOrEmpty(miCliente.ErrorDetalle))
                 {
                     nMensajeError = "Error al insertar cliente: " + miCliente.ErrorDetalle;
@@ -155,9 +151,7 @@ namespace Negocios
             }
         }
 
-        /// <summary>
-        /// Actualiza un cliente existente y retorna mensaje de éxito o error
-        /// </summary>
+
         public string ActualizarCliente(CNCliente objCliente)
         {
             CDCliente miCliente = new CDCliente();
@@ -175,12 +169,11 @@ namespace Negocios
 
             if (resultado)
             {
-                nMensajeError = string.Empty; // Operación exitosa
+                nMensajeError = string.Empty; 
                 return string.Empty;
             }
             else
             {
-                // Si hay error en la capa de datos, lo capturamos
                 if (!string.IsNullOrEmpty(miCliente.ErrorDetalle))
                 {
                     nMensajeError = "Error al actualizar cliente: " + miCliente.ErrorDetalle;

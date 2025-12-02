@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrestamosFinanciamiento", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaDatos", "CapaDatos\CapaDatos.csproj", "{2547C2B6-ABC6-4BF3-BAB4-1CF654EB5B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapadeCxC", "CapadeCxC\CapadeCxC.csproj", "{6B2019C4-418F-445F-977B-356611AF9C42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reportes", "CapadeCxC\Reportes.csproj", "{6B2019C4-418F-445F-977B-356611AF9C42}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocios", "Negocios\Negocios.csproj", "{CA7ECC3F-6EEF-49B4-A323-98AC236CCE30}"
 EndProject

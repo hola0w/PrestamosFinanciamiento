@@ -171,7 +171,7 @@ namespace PrestamosFinanciamiento
             this.BCacelar.Name = "BCacelar";
             this.BCacelar.Size = new System.Drawing.Size(273, 36);
             this.BCacelar.TabIndex = 16;
-            this.BCacelar.Text = "Cacelar";
+            this.BCacelar.Text = "Cancelar";
             this.BCacelar.UseVisualStyleBackColor = true;
             this.BCacelar.Click += new System.EventHandler(this.BCacelar_Click);
             // 

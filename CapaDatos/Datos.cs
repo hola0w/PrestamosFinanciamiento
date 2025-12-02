@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
-using System.Data.Sql;
 
 namespace CapaDatos
 {
-
     public class prestamos
     {
+
         private int dId_Prestamo;
         private string dNumero_Prestamo;
         private int dIdCliente;
@@ -37,7 +32,7 @@ namespace CapaDatos
                          int pPlazoMeses,
                          DateTime pFechaPrestamo,
                          DateTime pFechaVencimiento,
-                         string pEstado,     
+                         string pEstado,
                          decimal pSaldoPendiente,
                          bool pActivo,
                          DateTime pFechaActualizacion)
@@ -128,7 +123,7 @@ namespace CapaDatos
             set { dFechaActualizacion = value; }
         }
 
-        public string Insertar(prestamos objPrestamo)  
+        public string Insertar(prestamos objPrestamo)
         {
             string mensaje = "";
             SqlConnection sqlCon = new SqlConnection();
@@ -140,7 +135,14 @@ namespace CapaDatos
                 SqlCommand micomando = new SqlCommand("Prestamo-Insertar", sqlCon);
                 sqlCon.Open();
                 micomando.CommandType = CommandType.StoredProcedure;
-                micomando.Parameters.AddWithValue("@pNumeroPrestamo", objPrestamo.Numero_Prestamo);
+                SqlParameter paramIdPrestamo = new SqlParameter("@id_prestamo", SqlDbType.Int);
+                paramIdPrestamo.Direction = ParameterDirection.Output;
+                micomando.Parameters.Add(paramIdPrestamo);
+                SqlParameter paramNumeroPrestamo = new SqlParameter("@pNumeroPrestamo", SqlDbType.VarChar, 20);
+                paramNumeroPrestamo.Direction = ParameterDirection.InputOutput;
+                paramNumeroPrestamo.Value = string.IsNullOrEmpty(objPrestamo.Numero_Prestamo) ?
+                    (object)DBNull.Value : objPrestamo.Numero_Prestamo;
+                micomando.Parameters.Add(paramNumeroPrestamo);
                 micomando.Parameters.AddWithValue("@pIdCliente", objPrestamo.IdCliente);
                 micomando.Parameters.AddWithValue("@pMontoPrestamo", objPrestamo.MontoPrestamo);
                 micomando.Parameters.AddWithValue("@pTasaInteres", objPrestamo.TasaInteres);
@@ -150,14 +152,25 @@ namespace CapaDatos
                 micomando.Parameters.AddWithValue("@pEstado", objPrestamo.Estado);
                 micomando.Parameters.AddWithValue("@pSaldoPendiente", objPrestamo.SaldoPendiente);
                 micomando.Parameters.AddWithValue("@pActivo", objPrestamo.Activo);
-
-                mensaje = micomando.ExecuteNonQuery() == 1
-                    ? "Préstamo insertado correctamente!"
-                    : "No se pudo insertar el préstamo!";
+                SqlParameter paramRetorno = new SqlParameter("@return_value", SqlDbType.Int);
+                paramRetorno.Direction = ParameterDirection.ReturnValue;
+                micomando.Parameters.Add(paramRetorno);
+                micomando.ExecuteNonQuery();
+                int valorRetorno = (int)paramRetorno.Value;
+                if (valorRetorno == 0)
+                {
+                    int idGenerado = (int)paramIdPrestamo.Value;
+                    string numeroGenerado = paramNumeroPrestamo.Value.ToString();
+                    mensaje = $"Préstamo registrado correctamente. Número: {numeroGenerado}, ID: {idGenerado}";
+                }
+                else
+                {
+                    mensaje = "No se pudo insertar el préstamo!";
+                }
             }
             catch (Exception ex)
             {
-                mensaje = ex.Message;
+                mensaje = "Error: " + ex.Message;
             }
             finally
             {
@@ -209,31 +222,6 @@ namespace CapaDatos
             return mensaje;
         }
 
-        public DataTable PrestamoConsultar(string miparametro)
-        {
-            DataTable dt = new DataTable();
-            SqlDataReader leerDatos;
-
-            try
-            {
-                SqlCommand sqlCmd = new SqlCommand();
-                sqlCmd.Connection = new ConexionDB().dbConexion;
-                sqlCmd.Connection.Open();
-                sqlCmd.CommandText = "Prestamo-Seleccionar";
-                sqlCmd.CommandType = CommandType.StoredProcedure;
-                sqlCmd.Parameters.AddWithValue("@pvalor", miparametro);
-
-                leerDatos = sqlCmd.ExecuteReader();
-                dt.Load(leerDatos);
-                sqlCmd.Connection.Close();
-            }
-            catch (Exception ex)
-            {
-                dt = null;
-            }
-
-            return dt;
-        }
         public string Eliminar(int idPrestamo)
         {
             string mensaje = "";
@@ -263,6 +251,84 @@ namespace CapaDatos
             }
 
             return mensaje;
+        }
+
+        public DataTable PrestamoConsultar(string miparametro)
+        {
+            DataTable dt = new DataTable();
+            SqlDataReader leerDatos;
+
+            try
+            {
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = new ConexionDB().dbConexion;
+                sqlCmd.Connection.Open();
+                sqlCmd.CommandText = "Prestamo-Seleccionar";
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+                sqlCmd.Parameters.AddWithValue("@pvalor", miparametro);
+
+                leerDatos = sqlCmd.ExecuteReader();
+                dt.Load(leerDatos);
+                sqlCmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        public DataTable ObtenerTodosActivos(bool activo = true)
+        {
+            DataTable dt = new DataTable();
+            SqlDataReader leerDatos;
+
+            try
+            {
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = new ConexionDB().dbConexion;
+                sqlCmd.Connection.Open();
+                sqlCmd.CommandText = "Prestamo-SeleccionarTodosActivos";
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+                sqlCmd.Parameters.AddWithValue("@activo", activo ? 1 : 0);
+
+                leerDatos = sqlCmd.ExecuteReader();
+                dt.Load(leerDatos);
+                sqlCmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        public DataTable ObtenerPorNumeroPrestamo(string numeroPrestamo)
+        {
+            DataTable dt = new DataTable();
+            SqlDataReader leerDatos;
+
+            try
+            {
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = new ConexionDB().dbConexion;
+                sqlCmd.Connection.Open();
+                sqlCmd.CommandText = "Prestamo-SelecionarPorNumero_Prestamo";
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+                sqlCmd.Parameters.AddWithValue("@numero_prestamo", numeroPrestamo);
+
+                leerDatos = sqlCmd.ExecuteReader();
+                dt.Load(leerDatos);
+                sqlCmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+            }
+
+            return dt;
         }
 
         public DataTable ObtenerPorCliente(int idCliente)

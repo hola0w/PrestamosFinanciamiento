@@ -32,10 +32,18 @@ namespace PrestamosFinanciamiento
             this.PTitulo = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.BTCalcularCuotasa = new System.Windows.Forms.Button();
-            this.TBtiempo = new System.Windows.Forms.TextBox();
+            this.RDAno = new System.Windows.Forms.RadioButton();
             this.DTFin = new System.Windows.Forms.DateTimePicker();
+            this.RDMes = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
+            this.RDDias = new System.Windows.Forms.RadioButton();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TBtiempo = new System.Windows.Forms.TextBox();
+            this.DTInicio = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.BTCalcularCuotasa = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.noCliente = new System.Windows.Forms.Label();
             this.TBNombreC = new System.Windows.Forms.TextBox();
@@ -55,15 +63,7 @@ namespace PrestamosFinanciamiento
             this.BSalir = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.TBTasa = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.DTInicio = new System.Windows.Forms.DateTimePicker();
             this.PanelCentro = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.RDDias = new System.Windows.Forms.RadioButton();
-            this.RDMes = new System.Windows.Forms.RadioButton();
-            this.RDAno = new System.Windows.Forms.RadioButton();
             this.PTitulo.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -111,6 +111,110 @@ namespace PrestamosFinanciamiento
             this.panel2.Size = new System.Drawing.Size(912, 148);
             this.panel2.TabIndex = 29;
             // 
+            // RDAno
+            // 
+            this.RDAno.AutoSize = true;
+            this.RDAno.Location = new System.Drawing.Point(677, 25);
+            this.RDAno.Name = "RDAno";
+            this.RDAno.Size = new System.Drawing.Size(44, 17);
+            this.RDAno.TabIndex = 35;
+            this.RDAno.TabStop = true;
+            this.RDAno.Text = "Año";
+            this.RDAno.UseVisualStyleBackColor = true;
+            // 
+            // DTFin
+            // 
+            this.DTFin.Location = new System.Drawing.Point(585, 103);
+            this.DTFin.Name = "DTFin";
+            this.DTFin.Size = new System.Drawing.Size(224, 20);
+            this.DTFin.TabIndex = 31;
+            // 
+            // RDMes
+            // 
+            this.RDMes.AutoSize = true;
+            this.RDMes.Location = new System.Drawing.Point(626, 25);
+            this.RDMes.Name = "RDMes";
+            this.RDMes.Size = new System.Drawing.Size(45, 17);
+            this.RDMes.TabIndex = 34;
+            this.RDMes.TabStop = true;
+            this.RDMes.Text = "Mes";
+            this.RDMes.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(424, 101);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(145, 24);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Fecha de inicio:";
+            // 
+            // RDDias
+            // 
+            this.RDDias.AutoSize = true;
+            this.RDDias.Location = new System.Drawing.Point(574, 25);
+            this.RDDias.Name = "RDDias";
+            this.RDDias.Size = new System.Drawing.Size(46, 17);
+            this.RDDias.TabIndex = 33;
+            this.RDDias.TabStop = true;
+            this.RDDias.Text = "Dias";
+            this.RDDias.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label6.Location = new System.Drawing.Point(276, 59);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(25, 24);
+            this.label6.TabIndex = 32;
+            this.label6.Text = "%";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(424, 59);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(89, 24);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "Cantidad:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(424, 22);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(144, 24);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "Plazo solicitado:";
+            // 
+            // TBtiempo
+            // 
+            this.TBtiempo.Location = new System.Drawing.Point(518, 61);
+            this.TBtiempo.Name = "TBtiempo";
+            this.TBtiempo.Size = new System.Drawing.Size(194, 20);
+            this.TBtiempo.TabIndex = 27;
+            // 
+            // DTInicio
+            // 
+            this.DTInicio.Location = new System.Drawing.Point(188, 103);
+            this.DTInicio.Name = "DTInicio";
+            this.DTInicio.Size = new System.Drawing.Size(224, 20);
+            this.DTInicio.TabIndex = 25;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(27, 101);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(145, 24);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "Fecha de inicio:";
+            // 
             // BTCalcularCuotasa
             // 
             this.BTCalcularCuotasa.BackColor = System.Drawing.SystemColors.Highlight;
@@ -123,30 +227,6 @@ namespace PrestamosFinanciamiento
             this.BTCalcularCuotasa.TabIndex = 30;
             this.BTCalcularCuotasa.Text = "Calcular Cuotas";
             this.BTCalcularCuotasa.UseVisualStyleBackColor = false;
-            // 
-            // TBtiempo
-            // 
-            this.TBtiempo.Location = new System.Drawing.Point(518, 61);
-            this.TBtiempo.Name = "TBtiempo";
-            this.TBtiempo.Size = new System.Drawing.Size(194, 20);
-            this.TBtiempo.TabIndex = 27;
-            // 
-            // DTFin
-            // 
-            this.DTFin.Location = new System.Drawing.Point(585, 103);
-            this.DTFin.Name = "DTFin";
-            this.DTFin.Size = new System.Drawing.Size(224, 20);
-            this.DTFin.TabIndex = 31;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(424, 101);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(145, 24);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "Fecha de inicio:";
             // 
             // panel1
             // 
@@ -252,7 +332,7 @@ namespace PrestamosFinanciamiento
             this.BCacelar.Name = "BCacelar";
             this.BCacelar.Size = new System.Drawing.Size(123, 33);
             this.BCacelar.TabIndex = 15;
-            this.BCacelar.Text = "Cacelar";
+            this.BCacelar.Text = "Cancelar";
             this.BCacelar.UseVisualStyleBackColor = false;
             // 
             // CoClient
@@ -327,23 +407,6 @@ namespace PrestamosFinanciamiento
             this.TBTasa.Size = new System.Drawing.Size(84, 20);
             this.TBTasa.TabIndex = 23;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(27, 101);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(145, 24);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "Fecha de inicio:";
-            // 
-            // DTInicio
-            // 
-            this.DTInicio.Location = new System.Drawing.Point(188, 103);
-            this.DTInicio.Name = "DTInicio";
-            this.DTInicio.Size = new System.Drawing.Size(224, 20);
-            this.DTInicio.TabIndex = 25;
-            // 
             // PanelCentro
             // 
             this.PanelCentro.BackColor = System.Drawing.SystemColors.Menu;
@@ -369,73 +432,10 @@ namespace PrestamosFinanciamiento
             this.PanelCentro.Controls.Add(this.panel1);
             this.PanelCentro.Controls.Add(this.panel2);
             this.PanelCentro.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelCentro.Location = new System.Drawing.Point(0, 93);
+            this.PanelCentro.Location = new System.Drawing.Point(0, 96);
             this.PanelCentro.Name = "PanelCentro";
-            this.PanelCentro.Size = new System.Drawing.Size(936, 461);
+            this.PanelCentro.Size = new System.Drawing.Size(936, 458);
             this.PanelCentro.TabIndex = 3;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.label6.Location = new System.Drawing.Point(276, 59);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(25, 24);
-            this.label6.TabIndex = 32;
-            this.label6.Text = "%";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(424, 22);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(144, 24);
-            this.label7.TabIndex = 26;
-            this.label7.Text = "Plaso solicitado:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(424, 59);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 24);
-            this.label3.TabIndex = 26;
-            this.label3.Text = "Cantidad:";
-            // 
-            // RDDias
-            // 
-            this.RDDias.AutoSize = true;
-            this.RDDias.Location = new System.Drawing.Point(574, 25);
-            this.RDDias.Name = "RDDias";
-            this.RDDias.Size = new System.Drawing.Size(46, 17);
-            this.RDDias.TabIndex = 33;
-            this.RDDias.TabStop = true;
-            this.RDDias.Text = "Dias";
-            this.RDDias.UseVisualStyleBackColor = true;
-            // 
-            // RDMes
-            // 
-            this.RDMes.AutoSize = true;
-            this.RDMes.Location = new System.Drawing.Point(626, 25);
-            this.RDMes.Name = "RDMes";
-            this.RDMes.Size = new System.Drawing.Size(45, 17);
-            this.RDMes.TabIndex = 34;
-            this.RDMes.TabStop = true;
-            this.RDMes.Text = "Mes";
-            this.RDMes.UseVisualStyleBackColor = true;
-            // 
-            // RDAno
-            // 
-            this.RDAno.AutoSize = true;
-            this.RDAno.Location = new System.Drawing.Point(677, 25);
-            this.RDAno.Name = "RDAno";
-            this.RDAno.Size = new System.Drawing.Size(44, 17);
-            this.RDAno.TabIndex = 35;
-            this.RDAno.TabStop = true;
-            this.RDAno.Text = "Año";
-            this.RDAno.UseVisualStyleBackColor = true;
             // 
             // FPRESTAMO
             // 

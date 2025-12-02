@@ -193,7 +193,7 @@ namespace PrestamosFinanciamiento
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(173, 120);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.Size = new System.Drawing.Size(156, 21);
             this.comboBox1.TabIndex = 1;
             // 
             // TBMontoInicial
@@ -237,7 +237,7 @@ namespace PrestamosFinanciamiento
             // 
             this.textBox1.Location = new System.Drawing.Point(173, 45);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(125, 20);
+            this.textBox1.Size = new System.Drawing.Size(156, 20);
             this.textBox1.TabIndex = 6;
             // 
             // radioButton1
@@ -260,7 +260,7 @@ namespace PrestamosFinanciamiento
             this.BCacelar.Name = "BCacelar";
             this.BCacelar.Size = new System.Drawing.Size(123, 33);
             this.BCacelar.TabIndex = 24;
-            this.BCacelar.Text = "Cacelar";
+            this.BCacelar.Text = "Cancelar";
             this.BCacelar.UseVisualStyleBackColor = false;
             // 
             // panel5
@@ -450,7 +450,9 @@ namespace PrestamosFinanciamiento
             this.ClientSize = new System.Drawing.Size(818, 587);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MGestionPrestamo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MGestionPrestamo";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

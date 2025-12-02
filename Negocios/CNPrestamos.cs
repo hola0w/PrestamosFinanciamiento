@@ -12,6 +12,7 @@ namespace Negocios
 {
     public class CNPrestamos
     {
+        #region Métodos de Inserción y Actualización
         public static string Insertar(
             string pNumero_Prestamo,
             int pIdCliente,
@@ -71,7 +72,9 @@ namespace Negocios
             prestamos objPrestamo = new prestamos();
             return objPrestamo.Eliminar(pIdPrestamo);
         }
+        #endregion
 
+        #region Métodos de Consulta
         public static DataTable ObtenerPrestamo(string miparametro)
         {
             prestamos objPrestamo = new prestamos();
@@ -88,11 +91,27 @@ namespace Negocios
             return dt;
         }
 
+        public static DataTable ObtenerTodosActivos(bool activo = true)
+        {
+            prestamos objPrestamo = new prestamos();
+            DataTable dt = new DataTable();
+            dt = objPrestamo.ObtenerTodosActivos(activo);
+            return dt;
+        }
+
         public static DataTable ObtenerPrestamosPorCliente(int idCliente)
         {
             prestamos objPrestamo = new prestamos();
             DataTable dt = new DataTable();
             dt = objPrestamo.ObtenerPorCliente(idCliente);
+            return dt;
+        }
+
+        public static DataTable ObtenerPrestamoPorNumero(string numeroPrestamo)
+        {
+            prestamos objPrestamo = new prestamos();
+            DataTable dt = new DataTable();
+            dt = objPrestamo.ObtenerPorNumeroPrestamo(numeroPrestamo);
             return dt;
         }
 
@@ -103,5 +122,6 @@ namespace Negocios
             dt = objPrestamo.ObtenerPorId(idPrestamo);
             return dt;
         }
+        #endregion
     }
 }

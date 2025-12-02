@@ -135,7 +135,7 @@ namespace PrestamosFinanciamiento
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.dataGridView1);
@@ -165,7 +165,7 @@ namespace PrestamosFinanciamiento
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel2.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel2.Controls.Add(this.BSalir);
             this.panel2.Controls.Add(this.BSeleccionar);
             this.panel2.Controls.Add(this.BCacelar);
@@ -177,13 +177,15 @@ namespace PrestamosFinanciamiento
             // 
             // BSalir
             // 
+            this.BSalir.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.BSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BSalir.ForeColor = System.Drawing.SystemColors.InactiveCaption;
             this.BSalir.Location = new System.Drawing.Point(721, 33);
             this.BSalir.Name = "BSalir";
             this.BSalir.Size = new System.Drawing.Size(67, 45);
             this.BSalir.TabIndex = 24;
             this.BSalir.Text = "Salir";
-            this.BSalir.UseVisualStyleBackColor = true;
+            this.BSalir.UseVisualStyleBackColor = false;
             this.BSalir.Click += new System.EventHandler(this.BSalir_Click);
             // 
             // BSeleccionar
@@ -210,12 +212,12 @@ namespace PrestamosFinanciamiento
             this.BCacelar.Name = "BCacelar";
             this.BCacelar.Size = new System.Drawing.Size(123, 33);
             this.BCacelar.TabIndex = 22;
-            this.BCacelar.Text = "Cacelar";
+            this.BCacelar.Text = "Cancelar";
             this.BCacelar.UseVisualStyleBackColor = false;
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel3.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.panel3.Controls.Add(this.label1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
@@ -277,8 +279,8 @@ namespace PrestamosFinanciamiento
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button BSalir;
         private System.Windows.Forms.Button BSeleccionar;
         private System.Windows.Forms.Button BCacelar;
+        private System.Windows.Forms.Button BSalir;
     }
 }
